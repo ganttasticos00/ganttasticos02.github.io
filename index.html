@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" class="light dark">
+
+<head>
+
+ <meta charset="UTF-8">
+ <title>PWA con Crud</title>
+
+ <meta name="description" content="Ejemplo de PWA con Formulario">
+
+ <script type="module" src="js/lib/registraServiceWorker.js"></script>
+ <script type="module" src="js/lib/manejaErrores.js"></script>
+
+ <meta name="viewport" content="width=device-width">
+ <meta name="theme-color" content="#fffbfe">
+ <link rel="icon" sizes="32x32" href="favicon.ico">
+ <link rel="manifest" href="site.webmanifest">
+ <script src="ungap/custom-elements.js"></script>
+
+ <script type="module" src="js/lib/custom/md-app-bar.js"></script>
+ <script type="module" src="js/nav-tab-fixed.js"></script>
+
+ <link rel="stylesheet" href="css/estilos.css">
+ <link rel="stylesheet" href="css/transicion_pestanas.css">
+ <link rel="stylesheet" href="css/md-tab.css">
+ <link rel="stylesheet" href="css/material-symbols-outlined.css">
+ <link rel="stylesheet" href="css/md-list.css">
+ <link rel="stylesheet" href="css/md-fab-primary.css">
+
+</head>
+
+<body>
+
+ <md-app-bar class="centered" adicional="tab">
+
+  <h1>PWA con Crud</h1>
+
+ </md-app-bar>
+
+ <nav-tab-fixed id="tab"></nav-tab-fixed>
+
+ <section>
+
+  <ul class="md-list">
+
+   <li>
+    <a class="md-one-line" href="modifica.html?id=1">
+     <span class="headline">
+      Fut
+     </span>
+    </a>
+   </li>
+
+   <li>
+    <a class="md-one-line" href="modifica.html?id=2">
+     <span class="headline">
+      Basket
+     </span>
+    </a>
+   </li>
+
+  </ul>
+
+  <a href="agrega.html" class="md-fab-primary" title="Agregar"
+    style="position: fixed; bottom: 1rem; right: 1rem;">
+   <span class="material-symbols-outlined">add</span>
+  </a>
+
+ </section>
+
+
+</body>
+
+</html>
