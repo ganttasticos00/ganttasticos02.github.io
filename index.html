@@ -2,19 +2,19 @@
 <html lang="es" class="light dark">
 
 <head>
-
  <meta charset="UTF-8">
  <title>PWA con Crud</title>
 
  <meta name="description" content="Ejemplo de PWA con Formulario">
+ <meta name="viewport" content="width=device-width">
+ <meta name="theme-color" content="#fffbfe">
+
+ <link rel="icon" sizes="32x32" href="favicon.ico">
+ <link rel="manifest" href="site.webmanifest">
 
  <script type="module" src="js/lib/registraServiceWorker.js"></script>
  <script type="module" src="js/lib/manejaErrores.js"></script>
 
- <meta name="viewport" content="width=device-width">
- <meta name="theme-color" content="#fffbfe">
- <link rel="icon" sizes="32x32" href="favicon.ico">
- <link rel="manifest" href="site.webmanifest">
  <script src="ungap/custom-elements.js"></script>
 
  <script type="module" src="js/lib/custom/md-app-bar.js"></script>
@@ -26,49 +26,58 @@
  <link rel="stylesheet" href="css/material-symbols-outlined.css">
  <link rel="stylesheet" href="css/md-list.css">
  <link rel="stylesheet" href="css/md-fab-primary.css">
-
 </head>
 
 <body>
 
  <md-app-bar class="centered" adicional="tab">
-
   <h1>PWA con Crud</h1>
-
  </md-app-bar>
 
  <nav-tab-fixed id="tab"></nav-tab-fixed>
 
  <section>
 
-  <ul class="md-list">
-
+  <!-- 👇 AQUÍ VA TU LISTA DINÁMICA -->
+  <ul id="lista" class="md-list">
    <li>
-    <a class="md-one-line" href="modifica.html?id=1">
-     <span class="headline">
-      Fut
-     </span>
-    </a>
+    <progress max="100">Cargando…</progress>
    </li>
-
-   <li>
-    <a class="md-one-line" href="modifica.html?id=2">
-     <span class="headline">
-      Basket
-     </span>
-    </a>
-   </li>
-
   </ul>
 
   <a href="agrega.html" class="md-fab-primary" title="Agregar"
-    style="position: fixed; bottom: 1rem; right: 1rem;">
+   style="position: fixed; bottom: 1rem; right: 1rem;">
    <span class="material-symbols-outlined">add</span>
   </a>
 
  </section>
 
+<script type="module">
+
+ import { muestraError } from "./js/lib/muestraError.js"
+ import { esperaUnPocoYSincroniza } from "./js/esperaUnPocoYSincroniza.js"
+ import { pasatiempoConsultaNoEliminados } from "./js/pasatiempoConsultaNoEliminados.js"
+ import { renderiza } from "./js/renderiza.js"
+ import { sincroniza } from "./js/sincroniza.js"
+
+ cargar()
+
+ async function cargar() {
+  try {
+   const datos = await pasatiempoConsultaNoEliminados()
+
+   // 👇 esto llena tu UL con datos reales
+   renderiza(datos)
+
+   sincroniza()
+
+  } catch (error) {
+   muestraError(error)
+   esperaUnPocoYSincroniza()
+  }
+ }
+
+</script>
 
 </body>
-
 </html>
