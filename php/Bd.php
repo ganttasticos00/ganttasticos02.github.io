@@ -9,15 +9,14 @@ class Bd
  {
   if (self::$pdo === null) {
    self::$pdo = new PDO(
-    // cadena de conexión
-    "sqlite:" . __DIR__ . "/sincro.db",
-    // usuario
-    null,
-    // contraseña
-    null,
-    // Opciones: pdos no persistentes y lanza excepciones.
-    [PDO::ATTR_PERSISTENT => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-   );
+ "sqlite:/tmp/sincro.db",
+ null,
+ null,
+ [
+  PDO::ATTR_PERSISTENT => false,
+  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+ ]
+);
 
 self::$pdo->exec(
  'CREATE TABLE IF NOT EXISTS PASATIEMPO (
