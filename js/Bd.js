@@ -3,7 +3,7 @@ export const PAS_ID = "PAS_ID"
 export const INDICE_NOMBRE = "INDICE_NOMBRE"
 export const PAS_NOMBRE = "PAS_NOMBRE"
 const BD_NOMBRE = "sincro"
-const BD_VERSION = 1
+const BD_VERSION = 2
 
 /** @type { Promise<IDBDatabase> } */
 export const Bd = new Promise((resolve, reject) => {
@@ -16,8 +16,17 @@ export const Bd = new Promise((resolve, reject) => {
  solicitud.onerror = () => reject(solicitud.error)
 
  // Si se abre con éxito, devuelve una conexión a la base de datos.
- solicitud.onsuccess = () => resolve(solicitud.result)
+ solicitud.onsuccess = () => {
+  const db = solicitud.result
 
+  // 🔥 MUY IMPORTANTE
+  db.onversionchange = () => {
+    console.warn("DB cerrada por cambio de versión")
+    db.close()
+  }
+
+  resolve(db)
+}
  // Si es necesario, se inicia una transacción para cambio de versión.
  solicitud.onupgradeneeded = () => {
 

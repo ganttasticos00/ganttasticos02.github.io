@@ -15,6 +15,7 @@ export async function pasatiempoElimina(id) {
 
    modelo.PAS_MODIFICACION = Date.now()
    modelo.PAS_ELIMINADO = 1
+
    await bdEjecuta(Bd, [ALMACEN_PASATIEMPO], transaccion => {
     const almacenPasatiempo = transaccion.objectStore(ALMACEN_PASATIEMPO)
     almacenPasatiempo.put(modelo)
@@ -22,7 +23,9 @@ export async function pasatiempoElimina(id) {
 
   }
 
-  location.href = "index.html"
+  setTimeout(() => {
+    location.href = "index.html"
+  }, 150)
 
  }
 

@@ -4,22 +4,22 @@
 <head>
 
  <meta charset="UTF-8">
-
- <title>Modificar - PWA con Crud</title>
-
- <meta name="description" content="Ejemplo de PWA con Formulario">
-
- <script type="module" src="js/lib/registraServiceWorker.js"></script>
- <script type="module" src="js/lib/manejaErrores.js"></script>
-
  <meta name="viewport" content="width=device-width">
+
+ <title>Modificar</title>
+
+ <!-- PWA -->
  <meta name="theme-color" content="#fffbfe">
  <link rel="icon" sizes="32x32" href="favicon.ico">
  <link rel="manifest" href="site.webmanifest">
- <script src="ungap/custom-elements.js"></script>
 
+ <!-- Scripts -->
+ <script type="module" src="js/lib/registraServiceWorker.js"></script>
+ <script type="module" src="js/lib/manejaErrores.js"></script>
+ <script src="ungap/custom-elements.js"></script>
  <script type="module" src="js/lib/custom/md-app-bar.js"></script>
 
+ <!-- Estilos -->
  <link rel="stylesheet" href="css/estilos.css">
  <link rel="stylesheet" href="css/transicion_pestanas.css">
  <link rel="stylesheet" href="css/md-filled-text-field.css">
@@ -34,26 +34,27 @@
 
   <md-app-bar adicional="tab">
 
-   <a class="md-standard-icon-button" slot="navigation" title="Cancelar"
-     href="index.html">
-    <span class="material-symbols-outlined">cancel</span></a>
+   <a class="md-standard-icon-button" slot="navigation" href="index.html">
+    <span class="material-symbols-outlined">cancel</span>
+   </a>
 
    <h1>Modificar</h1>
 
-   <button type="submit" class="md-standard-icon-button" title="Guardar"
-     slot="action">
+   <button type="submit" class="md-standard-icon-button" slot="action">
     <span class="material-symbols-outlined">save</span>
    </button>
 
-   <button id="botonEliminar" type="button" class="md-standard-icon-button"
-     title="Eliminar" slot="action">
+   <button id="botonEliminar" type="button"
+     class="md-standard-icon-button" slot="action">
     <span class="material-symbols-outlined">delete_forever</span>
    </button>
 
   </md-app-bar>
 
+  <!-- CONTENIDO -->
   <section>
 
+   <!-- Nombre -->
    <p>
     <label class="md-filled-text-field">
      <input name="nombre" required placeholder="Nombre*">
@@ -62,34 +63,95 @@
     </label>
    </p>
 
+   <!-- Deporte -->
+   <p>
+    <label class="md-filled-text-field">
+     <input name="deporte" required placeholder="Deporte*">
+     <span>Deporte *</span>
+     <small id="supportingDeporte">Obligatorio</small>
+    </label>
+   </p>
+
+   <!-- Equipo -->
+   <p>
+    <label class="md-filled-text-field">
+     <input name="equipo" required placeholder="Equipo*">
+     <span>Equipo *</span>
+     <small id="supportingEquipo">Obligatorio</small>
+    </label>
+   </p>
+
   </section>
 
  </form>
 
  <script type="module">
+
+  import { validaEntidadObligatoria } from "./js/lib/validaEntidadObligatoria.js"
+  import { muestraObjeto } from "./js/lib/muestraObjeto.js"
   import { muestraTextoDeAyuda } from "./js/lib/muestraTextoDeAyuda.js"
+  import { pasatiempoBusca } from "./js/pasatiempoBusca.js"
+  import { pasatiempoElimina } from "./js/pasatiempoElimina.js"
+  import { pasatiempoModifica } from "./js/pasatiempoModifica.js"
 
-  formulario.nombre.addEventListener("input", copiaMensajes)
-  formulario.addEventListener("submit", guardar)
-  botonEliminar.addEventListener("click", eliminar)
+  const params = new URL(location.href).searchParams
+  const id = params.get("id")
 
-  function copiaMensajes() {
-   muestraTextoDeAyuda(formulario.nombre, supportingNombre, "Obligatorio")
-  }
+  const inputNombre = formulario.nombre
+  const inputDeporte = formulario.deporte
+  const inputEquipo = formulario.equipo
 
-  /**
-   * @param {SubmitEvent} evt
-   */
-  function guardar(evt) {
-   evt.preventDefault()
-   copiaMensajes()
-   if (formulario.nombre.validity.valid) {
-    location.href = "index.html"
-   }
-  }
+  const supportingNombre = document.getElementById("supportingNombre")
+  const supportingDeporte = document.getElementById("supportingDeporte")
+  const supportingEquipo = document.getElementById("supportingEquipo")
 
-  function eliminar() {
-   location.href = "index.html"
+  // Validaciones en tiempo real
+  inputNombre.addEventListener("input", () =>
+    muestraTextoDeAyuda(inputNombre, supportingNombre, "Obligatorio"))
+
+  inputDeporte.addEventListener("input", () =>
+    muestraTextoDeAyuda(inputDeporte, supportingDeporte, "Obligatorio"))
+
+  inputEquipo.addEventListener("input", () =>
+    muestraTextoDeAyuda(inputEquipo, supportingEquipo, "Obligatorio"))
+
+  descargaDatos()
+
+  async function descargaDatos() {
+    if (id !== null && id !== "") {
+
+      let modelo = await pasatiempoBusca(id)
+      modelo = validaEntidadObligatoria("Pasatiempo", modelo)
+
+  
+      muestraObjeto(document, {
+        nombre: { value: modelo.PAS_NOMBRE },
+        deporte: { value: modelo.PAS_DEPORTE || "" },
+        equipo: { value: modelo.PAS_EQUIPO || "" }
+      })
+
+    
+      formulario.addEventListener("submit", (evt) => {
+        evt.preventDefault()
+
+        muestraTextoDeAyuda(inputNombre, supportingNombre, "Obligatorio")
+        muestraTextoDeAyuda(inputDeporte, supportingDeporte, "Obligatorio")
+        muestraTextoDeAyuda(inputEquipo, supportingEquipo, "Obligatorio")
+
+        if (
+          inputNombre.validity.valid &&
+          inputDeporte.validity.valid &&
+          inputEquipo.validity.valid
+        ) {
+          pasatiempoModifica(evt, id)
+        }
+      })
+
+      // Eliminar
+      botonEliminar.addEventListener("click", () => {
+        pasatiempoElimina(id)
+      })
+    }
   }
 
  </script>

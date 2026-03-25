@@ -15,7 +15,16 @@ function pasatiempoConsultaNoEliminados()
 {
  $bd = Bd::pdo();
 $stmt = $bd->query(
- "SELECT * FROM PASATIEMPO WHERE PAS_ELIMINADO = 0 ORDER BY PAS_NOMBRE"
+ "SELECT 
+   PAS_ID,
+   PAS_NOMBRE,
+   PAS_DEPORTE,
+   PAS_EQUIPO,
+   PAS_MODIFICACION,
+   PAS_ELIMINADO
+  FROM PASATIEMPO 
+  WHERE PAS_ELIMINADO = 0 
+  ORDER BY PAS_NOMBRE"
 );
 $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
 return $lista;

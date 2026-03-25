@@ -47,5 +47,9 @@ function validaPasatiempo($objeto)
   PAS_ID => $objeto->PAS_ID,
   PAS_NOMBRE => $objeto->PAS_NOMBRE,
   PAS_MODIFICACION => $objeto->PAS_MODIFICACION,
+
+  // 🔥 ESTO ES LO QUE FALTABA
+  PAS_DEPORTE => $objeto->PAS_DEPORTE ?? "",
+  PAS_EQUIPO => $objeto->PAS_EQUIPO ?? "",
  ];
 }

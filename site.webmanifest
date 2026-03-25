@@ -1,13 +1,13 @@
 {
- "short_name": "Crud PWA",
- "name": "PWA con Crud",
- "id": "/index.html",
- "start_url": "/index.html",
+"short_name": "Ganttasticos",
+ "name": "Ganttasticos PWA",
+ "id": "/",
+ "start_url": "/",
  "display": "standalone",
- "theme_color": "#fffbfe",
- "background_color": "#fffbfe",
+ "theme_color": "#FFFFFF",
+ "background_color": "#34B3E4",
  "display_override": [
-  "window-controls-overlay"
+ "window-controls-overlay"
  ],
  "description": "PWA con Crud.",
  "screenshots": [
@@ -26,10 +26,10 @@
    "label": "PWA con Material Design (2)"
   }
 ],
- "icons": [
+  "icons":[
   {
     "purpose": "maskable",
-    "sizes": "3150x3150",
+    "sizes": "2730x2730",
     "src": "img/maskable_icon.png",
     "type": "image/png"
   },
@@ -75,9 +75,9 @@
     "src": "img/maskable_icon_x512.png",
     "type": "image/png"
   },
-  {
+    {
     "purpose": "any",
-    "sizes": "3150x3150",
+    "sizes": "2730x2730",
     "src": "img/maskable_icon.png",
     "type": "image/png"
   },
@@ -122,12 +122,6 @@
     "sizes": "512x512",
     "src": "img/maskable_icon_x512.png",
     "type": "image/png"
-  },
-  {
-   "purpose": "any",
-   "sizes": "2048x2048",
-   "src": "img/icono2048.png",
-   "type": "image/png"
   }
- ]
+]
 }

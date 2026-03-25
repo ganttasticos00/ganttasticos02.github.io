@@ -18,20 +18,31 @@ export async function pasatiempoModifica(event, id) {
  const formData = new FormData(target)
 
  const nombre = recibeTextoObligatorio(formData, "nombre")
+ const deporte = recibeTextoObligatorio(formData, "deporte")
+ const equipo = recibeTextoObligatorio(formData, "equipo")
 
  const anterior = await pasatiempoBusca(id)
 
  if (anterior !== undefined) {
 
-  anterior.PAS_NOMBRE = nombre
-  anterior.PAS_MODIFICACION = Date.now()
+  
+  const actualizado = {
+   ...anterior,
+   PAS_NOMBRE: nombre,
+   PAS_DEPORTE: deporte,
+   PAS_EQUIPO: equipo,
+   PAS_MODIFICACION: Date.now()
+  }
 
   await bdEjecuta(Bd, [ALMACEN_PASATIEMPO], transaccion => {
    const almacenPasatiempo = transaccion.objectStore(ALMACEN_PASATIEMPO)
-   almacenPasatiempo.put(anterior)
+   almacenPasatiempo.put(actualizado)
   })
 
- location.href = "index.html"
+
+  setTimeout(() => {
+   location.href = "index.html"
+  }, 150)
 
  }
 
